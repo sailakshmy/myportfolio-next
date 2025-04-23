@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { usePathname, useRouter } from 'next/navigation';
+import Logo from './Logo';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -97,9 +98,7 @@ const Navbar = () => {
             transition={{ delay: 0.2 }}
             className="flex-shrink-0"
           >
-            <Link href="/" className="text-xl font-bold hover:text-primary transition-colors duration-300">
-              Portfolio
-            </Link>
+            <Logo />
           </motion.div>
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
