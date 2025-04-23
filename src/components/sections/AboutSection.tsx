@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
+
 const AboutSection = () => {
   return (
     <section id="about" className="py-20 bg-dark">
@@ -24,16 +25,16 @@ const AboutSection = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="relative"
+            className="relative flex justify-center"
           >
-            <div className="relative w-64 h-64 mx-auto md:mx-0">
+            <div className="relative w-64 h-64">
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
                 className="absolute inset-0 rounded-full border-4 border-primary/30"
               />
               <Image
-                src="/images/profile.jpg"
+                src="/images/Sai.png"
                 alt="Profile"
                 fill
                 className="rounded-full object-cover"
@@ -68,7 +69,7 @@ const AboutSection = () => {
               transition={{ delay: 0.2 }}
               className="text-gray-300 leading-relaxed"
             >
-              I'm a passionate web developer with a strong focus on creating beautiful and functional user experiences. My journey in web development began with a curiosity about how websites work, and it has grown into a deep love for crafting digital solutions.
+I'm a results-driven Frontend Engineer with over 9 years of experience building scalable, high-performance web and mobile applications across diverse domains including technology and finance. My core expertise lies in ReactJS, Next.js, React Native, and TypeScript, with a strong focus on performance optimization, clean architecture, and scalable UI design.
             </motion.p>
             <motion.p
               initial={{ opacity: 0 }}
@@ -77,8 +78,7 @@ const AboutSection = () => {
               transition={{ delay: 0.4 }}
               className="text-gray-300 leading-relaxed"
             >
-              With expertise in modern technologies like React, Next.js, and TypeScript, I build responsive and performant web applications. I'm constantly learning and adapting to new technologies to stay at the forefront of web development.
-            </motion.p>
+             Over the years, I’ve contributed to large-scale enterprise applications, leading initiatives to improve SEO, reduce load times, and boost user engagement through strategic use of SSR, GraphQL, and modular frontend engineering. I’m a strong advocate for Test-Driven Development (TDD), maintaining high code coverage while mentoring junior developers and fostering Agile collaboration.  </motion.p>
             <motion.p
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -86,8 +86,15 @@ const AboutSection = () => {
               transition={{ delay: 0.6 }}
               className="text-gray-300 leading-relaxed"
             >
-              When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or enjoying outdoor activities. I believe in continuous learning and sharing knowledge with the developer community.
-            </motion.p>
+              Beyond code, I care deeply about the end-user experience and business impact of every solution I build. From integrating analytics tools like Google Analytics for data-driven UX decisions to streamlining development workflows with reusable components and best practices, I take pride in shipping clean, maintainable, and performant products. </motion.p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6 }}
+              className="text-gray-300 leading-relaxed"
+            >
+              Currently based in Dubai, I’m also expanding my skill set into Node.js and backend architecture, with the goal of delivering full-stack, end-to-end product experiences.</motion.p>
           </motion.div>
         </div>
       </div>
