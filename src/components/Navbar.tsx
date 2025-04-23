@@ -3,27 +3,71 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { usePathname, useRouter } from 'next/navigation';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('');
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const sections = ['about', 'skills', 'experience', 'projects', 'contact'];
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
       
       // Update active section based on scroll position
-      const sections = ['about', 'skills', 'experience', 'projects', 'contact'];
       const currentSection = sections.find(section => {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
-          return rect.top <= 100 && rect.bottom >= 100;
+          // Consider a section active if it's in the top half of the viewport
+          return rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2;
         }
         return false;
       });
-      if (currentSection) setActiveSection(currentSection);
+
+      // If no section is found in the middle of viewport, check if we're at the bottom
+      if (!currentSection) {
+        const lastSection = sections[sections.length - 1];
+        const lastElement = document.getElementById(lastSection);
+        if (lastElement) {
+          const rect = lastElement.getBoundingClientRect();
+          // If we're near the bottom of the page and the last section is visible
+          if (rect.top <= window.innerHeight && rect.bottom >= 0) {
+            setActiveSection(lastSection);
+            const newUrl = `#${lastSection}`;
+            if (window.location.hash !== newUrl) {
+              window.history.replaceState(null, '', newUrl);
+            }
+            return;
+          }
+        }
+      }
+
+      if (currentSection) {
+        setActiveSection(currentSection);
+        // Update URL without triggering a page reload
+        const newUrl = `#${currentSection}`;
+        if (window.location.hash !== newUrl) {
+          window.history.replaceState(null, '', newUrl);
+        }
+      }
     };
+
+    // Check initial hash
+    const initialHash = window.location.hash.slice(1);
+    if (initialHash && sections.includes(initialHash)) {
+      setActiveSection(initialHash);
+      const element = document.getElementById(initialHash);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // Initial check
+    handleScroll();
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -70,6 +114,14 @@ const Navbar = () => {
                 >
                   <Link
                     href={item.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const element = document.getElementById(item.href.slice(1));
+                      if (element) {
+                        element.scrollIntoView({ behavior: 'smooth' });
+                        setActiveSection(item.href.slice(1));
+                      }
+                    }}
                     className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
                       activeSection === item.href.slice(1)
                         ? 'text-primary bg-primary/10'
