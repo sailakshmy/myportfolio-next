@@ -1,117 +1,93 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { FaGithub, FaEnvelope, FaWhatsapp, FaFileAlt } from 'react-icons/fa';
 
 const ContactSection = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log(formData);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const contactLinks = [
+    {
+      name: 'GitHub',
+      icon: FaGithub,
+      href: 'https://github.com/sailakshmy',
+      color: 'hover:bg-gray-800',
+      iconColor: 'text-gray-800'
+    },
+    {
+      name: 'Email',
+      icon: FaEnvelope,
+      href: 'mailto:sailakshmy94@gmail.com',
+      color: 'hover:bg-red-500',
+      iconColor: 'text-red-500'
+    },
+    {
+      name: 'WhatsApp',
+      icon: FaWhatsapp,
+      href: 'https://wa.me/+918754550768',
+      color: 'hover:bg-green-500',
+      iconColor: 'text-green-500'
+    },
+    {
+      name: 'Resume',
+      icon: FaFileAlt,
+      href: '/resume/Sailakshmy_Frontend_9Years.pdf',
+      color: 'hover:bg-blue-500',
+      iconColor: 'text-blue-500',
+      download: true
+    }
+  ];
 
   return (
-    <section id="contact" className="section-container">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        viewport={{ once: true }}
-      >
-        <h2 className="section-title">Contact Me</h2>
-        <div className="max-w-2xl mx-auto">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <label htmlFor="name" className="block text-sm font-medium text-gray-300">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="input-field"
-                required
-              />
-            </motion.div>
+    <section id="contact" className="py-20 bg-dark">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-4xl font-bold text-white mb-4">Contact Me</h2>
+          <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+        </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              viewport={{ once: true }}
-            >
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="input-field"
-                required
-              />
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              viewport={{ once: true }}
-            >
-              <label htmlFor="message" className="block text-sm font-medium text-gray-300">
-                Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                rows={4}
-                className="input-field"
-                required
-              />
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              viewport={{ once: true }}
-              className="text-center"
-            >
-              <button
-                type="submit"
-                className="btn-primary"
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="max-w-md mx-auto"
+        >
+          <div className="grid grid-cols-2 gap-4">
+            {contactLinks.map((link, index) => (
+              <motion.a
+                key={link.name}
+                href={link.href}
+                target={link.download ? undefined : "_blank"}
+                rel="noopener noreferrer"
+                download={link.download}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`flex items-center justify-center gap-3 p-4 bg-dark-lighter rounded-lg transition-colors ${link.color}`}
               >
-                Send Message
-              </button>
-            </motion.div>
-          </form>
-        </div>
-      </motion.div>
+                <link.icon className={`text-2xl ${link.iconColor}`} />
+                <span className="text-white font-medium">{link.name}</span>
+              </motion.a>
+            ))}
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="mt-8 text-center"
+          >
+            <p className="text-gray-300">
+              Feel free to reach out to me through any of these platforms. I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
+            </p>
+          </motion.div>
+        </motion.div>
+      </div>
     </section>
   );
 };
