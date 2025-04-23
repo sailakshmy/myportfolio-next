@@ -8,70 +8,33 @@ import { useState, useEffect } from 'react';
 
 const ProjectsSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [focusedIndex, setFocusedIndex] = useState(0);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [visibleProjects, setVisibleProjects] = useState(1);
 
+  // Handle auto-play
   useEffect(() => {
-    const updateVisibleProjects = () => {
-      if (window.innerWidth >= 1024) {
-        setVisibleProjects(3);
-      } else if (window.innerWidth >= 768) {
-        setVisibleProjects(2);
-      } else {
-        setVisibleProjects(1);
-      }
-    };
+    if (!isAutoPlaying) return;
 
-    updateVisibleProjects();
-    window.addEventListener('resize', updateVisibleProjects);
-    return () => window.removeEventListener('resize', updateVisibleProjects);
-  }, []);
+    const timer = setInterval(() => {
+      setCurrentIndex(prev => (prev + 1) % projects.length);
+    }, 5000);
 
-  const getVisibleProjects = () => {
-    const projectsArray = [...projects, ...projects, ...projects];
-    const startIndex = currentIndex;
-    return projectsArray.slice(startIndex, startIndex + visibleProjects);
-  };
+    return () => clearInterval(timer);
+  }, [isAutoPlaying]);
 
-  const getFocusState = (index: number) => {
-    if (hoveredIndex !== null) {
-      return index === hoveredIndex;
-    }
-    return index === focusedIndex;
-  };
-
-  useEffect(() => {
-    if (hoveredIndex !== null) return;
-    
-    const focusTimer = setInterval(() => {
-      setFocusedIndex((prev) => (prev + 1) % visibleProjects);
-    }, 3000);
-
-    return () => clearInterval(focusTimer);
-  }, [hoveredIndex, visibleProjects]);
-
-  const paginate = (newDirection: number) => {
-    setDirection(newDirection);
-    setCurrentIndex((prevIndex) => {
-      const newIndex = prevIndex + newDirection;
+  const handleNavigation = (direction: number) => {
+    setIsAutoPlaying(false);
+    setCurrentIndex(prev => {
+      const newIndex = prev + direction;
       if (newIndex < 0) return projects.length - 1;
       if (newIndex >= projects.length) return 0;
       return newIndex;
     });
   };
 
-  useEffect(() => {
-    if (!isAutoPlaying) return;
-    
-    const timer = setInterval(() => {
-      paginate(1);
-    }, 5000);
-
-    return () => clearInterval(timer);
-  }, [isAutoPlaying]);
+  const handleDotClick = (index: number) => {
+    setIsAutoPlaying(false);
+    setCurrentIndex(index);
+  };
 
   return (
     <section id="projects" className="py-20 bg-dark">
@@ -87,38 +50,21 @@ const ProjectsSection = () => {
           <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
         </motion.div>
 
-        <div className="relative h-[450px] w-full">
-          <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 h-full items-center`}>
-            {getVisibleProjects().map((project, index) => (
-              <motion.div
-                key={`${project.title}-${index}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ 
-                  opacity: 1, 
-                  y: 0,
-                  scale: getFocusState(index) ? 1.05 : 0.95,
-                  zIndex: getFocusState(index) ? 10 : 1
-                }}
-                transition={{ 
-                  duration: 0.3,
-                  delay: index * 0.1
-                }}
-                onHoverStart={() => {
-                  setHoveredIndex(index);
-                  setIsAutoPlaying(false);
-                }}
-                onHoverEnd={() => {
-                  setHoveredIndex(null);
-                  setIsAutoPlaying(true);
-                }}
-                className={`bg-dark-lighter rounded-lg overflow-hidden shadow-lg h-[380px] flex flex-col cursor-pointer ${
-                  getFocusState(index) ? 'ring-2 ring-primary' : ''
-                }`}
-              >
-                <div className="relative h-40 flex-shrink-0">
+        <div className="relative h-[400px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentIndex}
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -100 }}
+              transition={{ duration: 0.3 }}
+              className="absolute inset-0 flex justify-center"
+            >
+              <div className="bg-dark-lighter rounded-lg overflow-hidden shadow-lg h-full flex flex-col max-w-md w-full">
+                <div className="relative h-40 md:h-44 lg:h-48 flex-shrink-0">
                   <Image
-                    src={project.image}
-                    alt={project.title}
+                    src={projects[currentIndex].image}
+                    alt={projects[currentIndex].title}
                     fill
                     className="object-cover"
                   />
@@ -128,39 +74,39 @@ const ProjectsSection = () => {
                     className="absolute inset-0 bg-primary/80 flex items-center justify-center gap-4"
                   >
                     <motion.a
-                      href={project.github}
+                      href={projects[currentIndex].github}
                       target="_blank"
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.2 }}
                       whileTap={{ scale: 0.9 }}
-                      className="p-3 bg-white rounded-full"
+                      className="p-2 bg-white rounded-full"
                     >
-                      <FaGithub className="text-primary text-xl" />
+                      <FaGithub className="text-primary text-lg" />
                     </motion.a>
                     <motion.a
-                      href={project.demo}
+                      href={projects[currentIndex].demo}
                       target="_blank"
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.2 }}
                       whileTap={{ scale: 0.9 }}
-                      className="p-3 bg-white rounded-full"
+                      className="p-2 bg-white rounded-full"
                     >
-                      <FaExternalLinkAlt className="text-primary text-xl" />
+                      <FaExternalLinkAlt className="text-primary text-lg" />
                     </motion.a>
                   </motion.div>
                 </div>
 
                 <div className="p-4 flex-grow flex flex-col">
                   <h3 className="text-lg font-bold text-white mb-1">
-                    {project.title}
+                    {projects[currentIndex].title}
                   </h3>
-                  <p className="text-gray-300 text-sm mb-3 line-clamp-2">
-                    {project.description}
+                  <p className="text-gray-300 text-sm mb-2">
+                    {projects[currentIndex].description}
                   </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {project.technologies.map((tech, techIndex) => (
+                  <div className="flex flex-wrap gap-1.5 mt-auto">
+                    {projects[currentIndex].technologies.map((tech, index) => (
                       <span
-                        key={techIndex}
+                        key={index}
                         className="px-2 py-0.5 bg-primary/10 text-primary rounded-full text-xs"
                       >
                         {tech}
@@ -168,24 +114,18 @@ const ProjectsSection = () => {
                     ))}
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
 
           <button
-            onClick={() => {
-              setIsAutoPlaying(false);
-              paginate(-1);
-            }}
+            onClick={() => handleNavigation(-1)}
             className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-primary/20 rounded-full hover:bg-primary/30 transition-colors"
           >
             <FaChevronLeft className="text-white text-xl" />
           </button>
           <button
-            onClick={() => {
-              setIsAutoPlaying(false);
-              paginate(1);
-            }}
+            onClick={() => handleNavigation(1)}
             className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-primary/20 rounded-full hover:bg-primary/30 transition-colors"
           >
             <FaChevronRight className="text-white text-xl" />
@@ -195,11 +135,7 @@ const ProjectsSection = () => {
             {projects.map((_, index) => (
               <button
                 key={index}
-                onClick={() => {
-                  setIsAutoPlaying(false);
-                  setDirection(index > currentIndex ? 1 : -1);
-                  setCurrentIndex(index);
-                }}
+                onClick={() => handleDotClick(index)}
                 className={`w-2 h-2 rounded-full transition-colors ${
                   index === currentIndex ? 'bg-primary' : 'bg-gray-600'
                 }`}
