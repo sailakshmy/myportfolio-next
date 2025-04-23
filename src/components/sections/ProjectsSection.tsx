@@ -1,77 +1,213 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import Image from 'next/image';
 import { projects } from '@/data/projects';
+import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import { FaGithub, FaExternalLinkAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
 
 const ProjectsSection = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [focusedIndex, setFocusedIndex] = useState(0);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [visibleProjects, setVisibleProjects] = useState(1);
+
+  useEffect(() => {
+    const updateVisibleProjects = () => {
+      if (window.innerWidth >= 1024) {
+        setVisibleProjects(3);
+      } else if (window.innerWidth >= 768) {
+        setVisibleProjects(2);
+      } else {
+        setVisibleProjects(1);
+      }
+    };
+
+    updateVisibleProjects();
+    window.addEventListener('resize', updateVisibleProjects);
+    return () => window.removeEventListener('resize', updateVisibleProjects);
+  }, []);
+
+  const getVisibleProjects = () => {
+    const projectsArray = [...projects, ...projects, ...projects];
+    const startIndex = currentIndex;
+    return projectsArray.slice(startIndex, startIndex + visibleProjects);
+  };
+
+  const getFocusState = (index: number) => {
+    if (hoveredIndex !== null) {
+      return index === hoveredIndex;
+    }
+    return index === focusedIndex;
+  };
+
+  useEffect(() => {
+    if (hoveredIndex !== null) return;
+    
+    const focusTimer = setInterval(() => {
+      setFocusedIndex((prev) => (prev + 1) % visibleProjects);
+    }, 3000);
+
+    return () => clearInterval(focusTimer);
+  }, [hoveredIndex, visibleProjects]);
+
+  const paginate = (newDirection: number) => {
+    setDirection(newDirection);
+    setCurrentIndex((prevIndex) => {
+      const newIndex = prevIndex + newDirection;
+      if (newIndex < 0) return projects.length - 1;
+      if (newIndex >= projects.length) return 0;
+      return newIndex;
+    });
+  };
+
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+    
+    const timer = setInterval(() => {
+      paginate(1);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, [isAutoPlaying]);
+
   return (
-    <section id="projects" className="section-container">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        viewport={{ once: true }}
-      >
-        <h2 className="section-title">Projects</h2>
-        <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-gray-700" />
-          
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.2 }}
-              viewport={{ once: true }}
-              className={`relative mb-8 ${
-                index % 2 === 0 ? 'md:ml-auto md:mr-0' : 'md:mr-auto md:ml-0'
-              } md:w-1/2`}
-            >
-              <div className="timeline-dot" />
-              <div className={`card ${
-                index % 2 === 0 ? 'md:ml-8' : 'md:mr-8'
-              }`}>
-                {project.image && (
-                  <div className="relative h-48 w-full mb-4">
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      className="object-cover rounded-lg"
-                    />
-                  </div>
-                )}
-                <h3 className="text-xl font-bold mb-2 text-white">{project.title}</h3>
-                <p className="text-gray-400 mb-2">{project.date}</p>
-                <p className="text-gray-300 mb-4">{project.description}</p>
-                <p className="text-gray-300 mb-4">
-                  <span className="font-semibold text-white">Technologies:</span> {project.technology}
-                </p>
-                <div className="flex space-x-4">
-                  <a
-                    href={project.demo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:text-primary-dark transition-colors"
+    <section id="projects" className="py-20 bg-dark">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-4xl font-bold text-white mb-4">Projects</h2>
+          <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+        </motion.div>
+
+        <div className="relative h-[450px] w-full">
+          <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 h-full items-center`}>
+            {getVisibleProjects().map((project, index) => (
+              <motion.div
+                key={`${project.title}-${index}`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ 
+                  opacity: 1, 
+                  y: 0,
+                  scale: getFocusState(index) ? 1.05 : 0.95,
+                  zIndex: getFocusState(index) ? 10 : 1
+                }}
+                transition={{ 
+                  duration: 0.3,
+                  delay: index * 0.1
+                }}
+                onHoverStart={() => {
+                  setHoveredIndex(index);
+                  setIsAutoPlaying(false);
+                }}
+                onHoverEnd={() => {
+                  setHoveredIndex(null);
+                  setIsAutoPlaying(true);
+                }}
+                className={`bg-dark-lighter rounded-lg overflow-hidden shadow-lg h-[380px] flex flex-col cursor-pointer ${
+                  getFocusState(index) ? 'ring-2 ring-primary' : ''
+                }`}
+              >
+                <div className="relative h-40 flex-shrink-0">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover"
+                  />
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                    className="absolute inset-0 bg-primary/80 flex items-center justify-center gap-4"
                   >
-                    Live Demo
-                  </a>
-                  <a
-                    href={project.sourcecode}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:text-primary-dark transition-colors"
-                  >
-                    Source Code
-                  </a>
+                    <motion.a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.2 }}
+                      whileTap={{ scale: 0.9 }}
+                      className="p-3 bg-white rounded-full"
+                    >
+                      <FaGithub className="text-primary text-xl" />
+                    </motion.a>
+                    <motion.a
+                      href={project.demo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.2 }}
+                      whileTap={{ scale: 0.9 }}
+                      className="p-3 bg-white rounded-full"
+                    >
+                      <FaExternalLinkAlt className="text-primary text-xl" />
+                    </motion.a>
+                  </motion.div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+
+                <div className="p-4 flex-grow flex flex-col">
+                  <h3 className="text-lg font-bold text-white mb-1">
+                    {project.title}
+                  </h3>
+                  <p className="text-gray-300 text-sm mb-3 line-clamp-2">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.technologies.map((tech, techIndex) => (
+                      <span
+                        key={techIndex}
+                        className="px-2 py-0.5 bg-primary/10 text-primary rounded-full text-xs"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <button
+            onClick={() => {
+              setIsAutoPlaying(false);
+              paginate(-1);
+            }}
+            className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-primary/20 rounded-full hover:bg-primary/30 transition-colors"
+          >
+            <FaChevronLeft className="text-white text-xl" />
+          </button>
+          <button
+            onClick={() => {
+              setIsAutoPlaying(false);
+              paginate(1);
+            }}
+            className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-primary/20 rounded-full hover:bg-primary/30 transition-colors"
+          >
+            <FaChevronRight className="text-white text-xl" />
+          </button>
+
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+            {projects.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  setIsAutoPlaying(false);
+                  setDirection(index > currentIndex ? 1 : -1);
+                  setCurrentIndex(index);
+                }}
+                className={`w-2 h-2 rounded-full transition-colors ${
+                  index === currentIndex ? 'bg-primary' : 'bg-gray-600'
+                }`}
+              />
+            ))}
+          </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };
