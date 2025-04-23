@@ -6,10 +6,23 @@ import { motion } from 'framer-motion';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
+      
+      // Update active section based on scroll position
+      const sections = ['about', 'skills', 'experience', 'projects', 'contact'];
+      const currentSection = sections.find(section => {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          return rect.top <= 100 && rect.bottom >= 100;
+        }
+        return false;
+      });
+      if (currentSection) setActiveSection(currentSection);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -40,7 +53,7 @@ const Navbar = () => {
             transition={{ delay: 0.2 }}
             className="flex-shrink-0"
           >
-            <Link href="/" className="text-xl font-bold">
+            <Link href="/" className="text-xl font-bold hover:text-primary transition-colors duration-300">
               Portfolio
             </Link>
           </motion.div>
@@ -52,10 +65,16 @@ const Navbar = () => {
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 + index * 0.1 }}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   <Link
                     href={item.href}
-                    className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300"
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
+                      activeSection === item.href.slice(1)
+                        ? 'text-primary bg-primary/10'
+                        : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
+                    }`}
                   >
                     {item.name}
                   </Link>
