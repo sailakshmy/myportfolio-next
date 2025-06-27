@@ -28,28 +28,18 @@ const SkillsSection = () => {
                 {category}
               </h3>
               <div className="space-y-4">
-                {items.map((skill) => (
-                  <motion.div 
-                    key={skill.name} 
-                    className="space-y-2 group"
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-300 text-sm sm:text-base group-hover:text-white transition-colors duration-200">{skill.name}</span>
-                      <span className="text-gray-400 text-sm sm:text-base group-hover:text-primary transition-colors duration-200">{skill.level}%</span>
-                    </div>
-                    <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${skill.level}%` }}
-                        transition={{ duration: 1, delay: 0.2 }}
-                        viewport={{ once: true }}
-                        className="h-full bg-gradient-to-r from-primary to-primary/70 rounded-full"
-                      />
-                    </div>
-                  </motion.div>
-                ))}
+                <div className="flex flex-wrap gap-2">
+                  {items.map((skill) => (
+                    <motion.span
+                      key={skill.name}
+                      className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium hover:bg-primary/20 transition-colors duration-200 cursor-default"
+                      whileHover={{ scale: 1.08 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {skill.name}
+                    </motion.span>
+                  ))}
+                </div>
               </div>
             </motion.div>
           ))}

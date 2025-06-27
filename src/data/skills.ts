@@ -101,6 +101,10 @@ export const skills = {
             name: "Jest",
             level: 60,
         },
+        {
+            name: "Playwright",
+            level: 20,
+        },
     ],
     "Cloud Services": [
         {
