@@ -83,7 +83,7 @@ const ProjectsSection = () => {
                     >
                       <FaGithub className="text-primary text-lg" />
                     </motion.a>
-                    <motion.a
+                    {projects[currentIndex].demo && <motion.a
                       href={projects[currentIndex].demo}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -92,7 +92,7 @@ const ProjectsSection = () => {
                       className="p-2 bg-white rounded-full"
                     >
                       <FaExternalLinkAlt className="text-primary text-lg" />
-                    </motion.a>
+                    </motion.a>}
                   </motion.div>
                 </div>
 
@@ -136,9 +136,8 @@ const ProjectsSection = () => {
               <button
                 key={index}
                 onClick={() => handleDotClick(index)}
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  index === currentIndex ? 'bg-primary' : 'bg-gray-600'
-                }`}
+                className={`w-2 h-2 rounded-full transition-colors ${index === currentIndex ? 'bg-primary' : 'bg-gray-600'
+                  }`}
               />
             ))}
           </div>
