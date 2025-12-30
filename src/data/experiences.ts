@@ -9,21 +9,34 @@ export interface Experience {
 
 export const experiences:Experience[] = [
   {
+    title: 'Senior Technical Lead',
+    company: 'HCL Technologies',
+    location: 'Dubai, UAE',
+    period: 'August 1, 2025 - Present',
+    description: [
+      "Enhanced the existing web platform to achieve feature parity with mobile applications using Angular v12, ensuring a unified user experience and consistent functionality across all digital touchpoints.",
+      "Extended the existing end-to-end automation framework by designing and implementing new test cases using Playwright with Cucumber, improving test coverage, and ensuring reliability across critical user flows.",
+      "Strengthened regression test suites by enhancing scenario coverage and maintaining reusable step definitions, contributing to faster release cycles and reduced production defects.",
+      "Improved application stability and maintainability by validating UI changes through automated tests, reducing manual testing effort, and post-release issues."
+    ],
+    skills: [ "JavaScript", "TypeScript", "Angular", "Bootstrap", "Playwright", "Cucumber", ]
+  },
+  {
     title: 'Lead React Developer',
     company: 'Synechron',
     location: 'Dubai, UAE',
-    period: 'September 28, 2023 - Present',
+    period: 'September 28, 2023 - July 18, 2025',
     description: [
-      "Spearheading front-end development projects as a Senior React Developer, utilizing extensive knowledge in React JS to build dynamic and scalable web components.",
-      "Expanding expertise to React Native, enabling efficient development of cross-platform mobile applications with consistent codebases and enhanced user experiences.",
-      "Innovating user interface performance through the design of optimized GraphQL calls in React, facilitating faster and more responsive interactions.",
-      "Demonstrating mastery in React state management, ensuring seamless state transitions and data handling across complex application architectures.",
-      "Collaborating with UI/UX design teams to accurately translate visual designs into functional code, focusing on creating engaging and user-friendly interfaces.",
-      "Implementing comprehensive unit testing practices using Jest, contributing significantly to the stability and reliability of the application's codebase.",
-      "Actively participating in quality assurance processes, identifying and resolving issues early in the development cycle to maintain high standards of software quality.",
-      "Leading efforts in integrating NextJS for server-side rendering, boosting application performance and scalability.",
-      "Engaging in continuous learning and application of emerging technologies, staying ahead of industry trends and bringing innovative solutions to development projects.",
-      "Playing a pivotal role in team collaborations, sharing knowledge, and mentoring peers to foster a culture of technical excellence and shared learning.",
+      "Spearheaded front-end development projects as a Senior React Developer, utilizing extensive knowledge in React JS to build dynamic and scalable web components.",
+      "Expanded expertise to React Native, enabling efficient development of cross-platform mobile applications with consistent codebases and enhanced user experiences.",
+      "Innovated user interface performance through the design of optimized GraphQL calls in React, facilitating faster and more responsive interactions.",
+      "Demonstrated mastery in React state management, ensuring seamless state transitions and data handling across complex application architectures.",
+      "Collaborated with UI/UX design teams to accurately translate visual designs into functional code, focusing on creating engaging and user-friendly interfaces.",
+      "Implemented comprehensive unit testing practices using Jest, contributed significantly to the stability and reliability of the application's codebase.",
+      "Actively particpated in quality assurance processes, identifying and resolving issues early in the development cycle to maintain high standards of software quality.",
+      "Led efforts in integrating NextJS for server-side rendering, boosting application performance and scalability.",
+      "Engaged in continuous learning and application of emerging technologies, staying ahead of industry trends and bringing innovative solutions to development projects.",
+      "Played a pivotal role in team collaborations, sharing knowledge, and mentoring peers to foster a culture of technical excellence and shared learning.",
     ],
     skills: ["NextJS", "JavaScript", "React.js", "React Hooks", "TypeScript", "React Native", "GraphQL", 'Tailwind CSS'],
   },

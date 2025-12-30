@@ -14,6 +14,10 @@ export const skills = {
             level: 75,
         },
         {
+            name: "Angular",
+            level: 60,
+        },
+        {
             name: "NextJs",
             level: 60,
         },
@@ -103,7 +107,11 @@ export const skills = {
         },
         {
             name: "Playwright",
-            level: 20,
+            level: 40,
+        },
+        {
+            name: "Cucumber",
+            level: 30,
         },
     ],
     "Cloud Services": [
