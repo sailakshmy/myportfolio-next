@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { FaGithub, FaEnvelope, FaWhatsapp, FaFileAlt } from 'react-icons/fa';
+import { FaGithub, FaEnvelope, FaWhatsapp, FaFileAlt, FaLinkedin } from 'react-icons/fa';
 
 const ContactSection = () => {
   const contactLinks = [
@@ -11,6 +11,13 @@ const ContactSection = () => {
       href: 'https://github.com/sailakshmy',
       color: 'hover:bg-gray-800',
       iconColor: 'text-gray-800'
+    },
+    {
+      name: 'LinkedIn',
+      icon: FaLinkedin,
+      href: 'https://www.linkedin.com/in/sai-lakshmy/',
+      color: 'hover:bg-gray-400',
+      iconColor: 'text-gray-400'
     },
     {
       name: 'Email',
