@@ -12,6 +12,17 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    date: "07/07/2026",
+    title: "CosmoScope",
+    description:
+      "Explore NASA's Astronomy Picture of the Day by date and track near-Earth objects with hazard counts, closest approach details, velocity insights, and object lookup data.",
+    technologies:
+      ["React", "React Native", "Expo", "NextJs", "TypeScript", "NodeJs", "ExpressJs", "NASA APIs", "React Query"],
+    image: '/images/CosmosTracker.png',
+    demo: "https://cosmo-scope.netlify.app/",
+    github: "https://github.com/sailakshmy/cosmoscope",
+  },
+  {
     date: "12/04/2025",
     title: "Expense Tracker",
     description: "Track your expenses",
