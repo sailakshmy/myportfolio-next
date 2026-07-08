@@ -1,8 +1,7 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import Image from 'next/image';
-
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 const AboutSection = () => {
   return (
@@ -69,7 +68,12 @@ const AboutSection = () => {
               transition={{ delay: 0.2 }}
               className="text-gray-300 leading-relaxed"
             >
-I'm a results-driven Frontend Engineer with over 9 years of experience building scalable, high-performance web and mobile applications across diverse domains including technology and finance. My core expertise lies in ReactJS, Next.js, React Native, and TypeScript, with a strong focus on performance optimization, clean architecture, and scalable UI design.
+              I'm a results-driven Frontend Engineer with over 10 years of
+              experience building scalable, high-performance web and mobile
+              applications across diverse domains including technology and
+              finance. My core expertise lies in ReactJS, Next.js, React Native,
+              and TypeScript, with a strong focus on performance optimization,
+              clean architecture, and scalable UI design.
             </motion.p>
             <motion.p
               initial={{ opacity: 0 }}
@@ -78,7 +82,14 @@ I'm a results-driven Frontend Engineer with over 9 years of experience building 
               transition={{ delay: 0.4 }}
               className="text-gray-300 leading-relaxed"
             >
-             Over the years, I’ve contributed to large-scale enterprise applications, leading initiatives to improve SEO, reduce load times, and boost user engagement through strategic use of SSR, GraphQL, and modular frontend engineering. I’m a strong advocate for Test-Driven Development (TDD), maintaining high code coverage while mentoring junior developers and fostering Agile collaboration.  </motion.p>
+              Over the years, I’ve contributed to large-scale enterprise
+              applications, leading initiatives to improve SEO, reduce load
+              times, and boost user engagement through strategic use of SSR,
+              GraphQL, and modular frontend engineering. I’m a strong advocate
+              for Test-Driven Development (TDD), maintaining high code coverage
+              while mentoring junior developers and fostering Agile
+              collaboration.{" "}
+            </motion.p>
             <motion.p
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -86,7 +97,13 @@ I'm a results-driven Frontend Engineer with over 9 years of experience building 
               transition={{ delay: 0.6 }}
               className="text-gray-300 leading-relaxed"
             >
-              Beyond code, I care deeply about the end-user experience and business impact of every solution I build. From integrating analytics tools like Google Analytics for data-driven UX decisions to streamlining development workflows with reusable components and best practices, I take pride in shipping clean, maintainable, and performant products. </motion.p>
+              Beyond code, I care deeply about the end-user experience and
+              business impact of every solution I build. From integrating
+              analytics tools like Google Analytics for data-driven UX decisions
+              to streamlining development workflows with reusable components and
+              best practices, I take pride in shipping clean, maintainable, and
+              performant products.{" "}
+            </motion.p>
             <motion.p
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -94,7 +111,10 @@ I'm a results-driven Frontend Engineer with over 9 years of experience building 
               transition={{ delay: 0.6 }}
               className="text-gray-300 leading-relaxed"
             >
-              Currently based in Dubai, I’m also expanding my skill set into Node.js and backend architecture, with the goal of delivering full-stack, end-to-end product experiences.</motion.p>
+              Currently based in Dubai, I’m also expanding my skill set into
+              Node.js and backend architecture, with the goal of delivering
+              full-stack, end-to-end product experiences.
+            </motion.p>
           </motion.div>
         </div>
       </div>
@@ -102,4 +122,4 @@ I'm a results-driven Frontend Engineer with over 9 years of experience building 
   );
 };
 
-export default AboutSection; 
+export default AboutSection;
